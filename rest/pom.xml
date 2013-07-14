@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>fr.kissy</groupId>
-        <artifactId>modules</artifactId>
+        <artifactId>module</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <groupId>fr.kissy.module</groupId>
@@ -18,7 +18,7 @@
         <jackson.jaxrs.json.provider.version>2.1.5</jackson.jaxrs.json.provider.version>
         <javax.servlet.api.version>3.1.0</javax.servlet.api.version>
         <jetty.maven.plugin.version>9.0.4.v20130625</jetty.maven.plugin.version>
-        <jsr311.api.version>1.1.1</jsr311.api.version>
+        <javax.ws.rs.api.version>2.0-m10</javax.ws.rs.api.version>
         <maven.war.plugin.version>2.4</maven.war.plugin.version>
         <spring.version>3.2.3.RELEASE</spring.version>
         <swagger.jaxrs.version>1.2.5</swagger.jaxrs.version>
@@ -76,6 +76,28 @@
                 <groupId>com.wordnik</groupId>
                 <artifactId>swagger-jaxrs_2.10.0</artifactId>
                 <version>${swagger.jaxrs.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun.jersey</groupId>
+                        <artifactId>jersey-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.jersey</groupId>
+                        <artifactId>jersey-servlet</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.jersey</groupId>
+                        <artifactId>jersey-server</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.jersey</groupId>
+                        <artifactId>jersey-client</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.ws.rs</groupId>
+                        <artifactId>jsr311-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -84,8 +106,8 @@
             </dependency>
             <dependency>
                 <groupId>javax.ws.rs</groupId>
-                <artifactId>jsr311-api</artifactId>
-                <version>${jsr311.api.version}</version>
+                <artifactId>javax.ws.rs-api</artifactId>
+                <version>${javax.ws.rs.api.version}</version>
             </dependency>
 
             <!-- Provided -->
