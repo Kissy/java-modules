@@ -4,6 +4,8 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.google.common.collect.Lists;
 import com.wordnik.swagger.jaxrs.JaxrsApiReader;
 import fr.kissy.module.rest.application.WebServiceScanningApplication;
+import fr.kissy.module.rest.mapper.CustomExceptionMapper;
+import fr.kissy.module.rest.mapper.WebApplicationExceptionMapper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.bus.spring.SpringBus;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
@@ -42,12 +44,18 @@ public class RestConfig {
     public WebServiceScanningApplication basicApplication() {
         return new WebServiceScanningApplication();
     }
-
     @Bean
     public JacksonJaxbJsonProvider jacksonJsonProvider() {
         return new JacksonJaxbJsonProvider();
     }
-
+    @Bean
+    public CustomExceptionMapper customExceptionMapper() {
+        return new CustomExceptionMapper();
+    }
+    @Bean
+    public WebApplicationExceptionMapper webApplicationExceptionMapper() {
+        return new WebApplicationExceptionMapper();
+    }
     @Bean
     public WadlGenerator wadlGenerator() {
         WadlGenerator wadlGenerator = new WadlGenerator();
@@ -55,10 +63,10 @@ public class RestConfig {
         wadlGenerator.setNamespacePrefix(wadlNamespacePrefix);
         return wadlGenerator;
     }
-
     @Bean
     public List<?> providers() {
-        return Lists.newArrayList(jacksonJsonProvider(), wadlGenerator());
+        return Lists.newArrayList(jacksonJsonProvider(), customExceptionMapper(),
+                webApplicationExceptionMapper(), wadlGenerator());
     }
 
     @Bean(initMethod = "create")
