@@ -25,7 +25,7 @@
     <repositories>
         <repository>
             <id>kissy-java-modules-releases</id>
-            <url>https://raw.github.com/Kissy/java-modules/master</url>
+            <url>https://raw.github.com/Kissy/mvn-repository/master</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -38,7 +38,7 @@
     <distributionManagement>
         <repository>
             <id>releases-repository</id>
-            <url>https://raw.github.com/Kissy/java-modules/master</url>
+            <url>https://raw.github.com/Kissy/mvn-repository/master</url>
         </repository>
     </distributionManagement>
 
