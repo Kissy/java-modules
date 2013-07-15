@@ -19,11 +19,14 @@
     <script type="text/javascript">
 	    $(function () {
 	        window.swaggerUi = new SwaggerUi({
-                discoveryUrl:"/rest/api",
+                discoveryUrl: $('#input_baseUrl').val(),
+                apiKey: "",
+                apiKeyName: "Authorization",
+                headers: {Authorization: $('#input_apiKey').val()},
                 dom_id:"swagger-ui-container",
-                supportHeaderParams: false,
+                supportHeaderParams: true,
                 supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
-                onComplete: function(swaggerApi, swaggerUi){
+                onComplete: function () {
                     $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
                 },
                 docExpansion: "none"
@@ -37,7 +40,13 @@
 <body>
 <div id='header'>
     <div class="swagger-ui-wrap">
-        <a id="logo" href="http://swagger.wordnik.com">swagger</a>
+        <a id="logo" href="#">Swagger</a>
+
+        <form id='api_selector'>
+            <input type="hidden" id="input_baseUrl" value="/rest/api" />
+            <div class='input'><input placeholder="Authorization Token" id="input_apiKey" name="apiKey" type="text"/></div>
+            <div class='input'><a id="explore" href="#">Explore</a></div>
+        </form>
     </div>
 </div>
 

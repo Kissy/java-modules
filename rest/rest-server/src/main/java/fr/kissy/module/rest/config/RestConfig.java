@@ -4,12 +4,15 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.google.common.collect.Lists;
 import com.wordnik.swagger.jaxrs.JaxrsApiReader;
 import fr.kissy.module.rest.application.WebServiceScanningApplication;
+import fr.kissy.module.rest.interceptor.AuthorizationHeaderInterceptor;
 import fr.kissy.module.rest.mapper.CustomExceptionMapper;
 import fr.kissy.module.rest.mapper.WebApplicationExceptionMapper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.bus.spring.SpringBus;
+import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.model.wadl.WadlGenerator;
+import org.apache.cxf.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -19,6 +22,7 @@ import org.springframework.context.annotation.ImportResource;
 
 import javax.jws.WebService;
 import javax.ws.rs.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +72,17 @@ public class RestConfig {
         return Lists.newArrayList(jacksonJsonProvider(), customExceptionMapper(),
                 webApplicationExceptionMapper(), wadlGenerator());
     }
+    @Bean
+    public AuthorizationHeaderInterceptor authorizationHeaderInterceptor() {
+        return new AuthorizationHeaderInterceptor();
+    }
+    @Bean
+    @SuppressWarnings("unchecked")
+    public List<Interceptor<? extends Message>> interceptors() {
+        List<Interceptor<? extends Message>> interceptors = Lists.newArrayList();
+        interceptors.add(authorizationHeaderInterceptor());
+        return interceptors;
+    }
 
     @Bean(initMethod = "create")
     public JAXRSServerFactoryBean jaxrsServerFactoryBean() {
@@ -77,6 +92,7 @@ public class RestConfig {
         jaxrsServerFactoryBean.setServiceBeans(Lists.newArrayList(beansWithAnnotation.values()));
         jaxrsServerFactoryBean.setApplication(basicApplication());
         jaxrsServerFactoryBean.setProviders(providers());
+        jaxrsServerFactoryBean.setInInterceptors(interceptors());
         jaxrsServerFactoryBean.setAddress(serverAddress);
         return jaxrsServerFactoryBean;
     }
