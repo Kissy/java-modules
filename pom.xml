@@ -5,36 +5,41 @@
     <groupId>fr.kissy</groupId>
     <artifactId>module</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    
+    <version>1.0</version>
+
     <modules>
         <module>rest</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <github.global.server>github</github.global.server>
         <commons.lang3.version>3.1</commons.lang3.version>
         <junit.version>4.11</junit.version>
         <mockito.all.version>1.9.5</mockito.all.version>
         <powermock.version>1.5.1</powermock.version>
+        <maven.deploy.plugin.version>2.7</maven.deploy.plugin.version>
+        <site.maven.plugin.version>0.8</site.maven.plugin.version>
     </properties>
-    
+
     <repositories>
         <repository>
-            <id>kissy-snapshots</id>
-            <url>https://github.com/Kissy/mvn-repository/raw/master/snapshots</url>
+            <id>kissy-java-modules-releases</id>
+            <url>https://raw.github.com/Kissy/java-modules/master</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
-    
+
     <distributionManagement>
         <repository>
             <id>releases-repository</id>
-            <url>https://github.com/Kissy/mvn-repository/raw/master/releases</url>
+            <url>https://raw.github.com/Kissy/java-modules/master</url>
         </repository>
-        <snapshotRepository>
-            <id>snapshots-repository</id>
-            <url>https://github.com/Kissy/mvn-repository/raw/master/snapshots</url>
-        </snapshotRepository>
     </distributionManagement>
 
     <dependencies>
@@ -43,7 +48,7 @@
             <artifactId>commons-lang3</artifactId>
             <version>${commons.lang3.version}</version>
         </dependency>
-        
+
         <!-- Test Dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -70,4 +75,41 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven.deploy.plugin.version}</version>
+                <configuration>
+                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repository</altDeploymentRepository>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>${site.maven.plugin.version}</version>
+                <configuration>
+                    <message>Maven artifacts for ${project.artifactId} ${project.version}</message>
+                    <noJekyll>true</noJekyll>
+                    <outputDirectory>${project.build.directory}/mvn-repository</outputDirectory>
+                    <branch>refs/heads/master</branch>
+                    <merge>true</merge>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                    <repositoryName>mvn-repository</repositoryName>
+                    <repositoryOwner>Kissy</repositoryOwner>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

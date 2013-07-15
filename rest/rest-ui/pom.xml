@@ -5,7 +5,7 @@
     <parent>
         <groupId>fr.kissy.module</groupId>
         <artifactId>rest</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
     <groupId>fr.kissy.module.rest</groupId>
     <artifactId>rest-ui</artifactId>
