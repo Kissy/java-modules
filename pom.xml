@@ -8,6 +8,7 @@
     <version>1.0</version>
 
     <modules>
+        <module>maven</module>
         <module>rest</module>
     </modules>
 
