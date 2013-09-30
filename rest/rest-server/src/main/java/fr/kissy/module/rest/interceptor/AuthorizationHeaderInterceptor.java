@@ -9,6 +9,8 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.springframework.beans.factory.annotation.Value;
 
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
 
@@ -37,20 +39,18 @@ public class AuthorizationHeaderInterceptor extends AbstractPhaseInterceptor<Mes
         }
 
         Map<String, List<String>> headers = CastUtils.cast((Map) message.get(Message.PROTOCOL_HEADERS));
-        if (headers == null) {
-            throw new AccessDeniedException("Unauthorized");
+        if (headers != null) {
+            List<String> authorizations = headers.get("Authorization");
+            if (authorizations != null && !authorizations.isEmpty()) {
+                String authorization = authorizations.get(0);
+                String token = authorization.replace("Token ", StringUtils.EMPTY);
+                if (StringUtils.equals(this.token, token)) {
+                    return;
+                }
+            }
         }
-        List<String> authorizations = headers.get("Authorization");
-        if (authorizations == null || authorizations.size() == 0) {
-            throw new AccessDeniedException("Unauthorized");
-        }
-        String authorization = authorizations.get(0);
-        if (!authorization.startsWith("Token ")) {
-            throw new AccessDeniedException("Unauthorized");
-        }
-        String token = authorization.replace("Token ", StringUtils.EMPTY);
-        if (!StringUtils.equals(this.token, token)) {
-            throw new AccessDeniedException("Unauthorized");
-        }
+
+        Response response = Response.status(Response.Status.UNAUTHORIZED).build();
+        message.getExchange().put(Response.class, response);
     }
 }

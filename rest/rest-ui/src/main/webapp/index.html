@@ -22,7 +22,6 @@
                 discoveryUrl: $('#input_baseUrl').val(),
                 apiKey: "",
                 apiKeyName: "Authorization",
-                headers: {Authorization: $('#input_apiKey').val()},
                 dom_id:"swagger-ui-container",
                 supportHeaderParams: true,
                 supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
@@ -45,7 +44,7 @@
         <form id='api_selector'>
             <input type="hidden" id="input_baseUrl" value="/rest/api" />
             <div class='input'><input placeholder="Authorization Token" id="input_apiKey" name="apiKey" type="text"/></div>
-            <div class='input'><a id="explore" href="#">Explore</a></div>
+            <div class='input'><a id="explore" href="#">Submit</a></div>
         </form>
     </div>
 </div>
