@@ -12,15 +12,15 @@
     <packaging>pom</packaging>
 
     <properties>
-        <cxf.version>2.7.5</cxf.version>
-        <cxf.xjc.runtime.version>2.6.1</cxf.xjc.runtime.version>
-        <httpclient.version>4.2.4</httpclient.version>
-        <jackson.jaxrs.json.provider.version>2.1.5</jackson.jaxrs.json.provider.version>
+        <cxf.version>2.7.7</cxf.version>
+        <cxf.xjc.runtime.version>2.6.2</cxf.xjc.runtime.version>
+        <httpclient.version>4.3</httpclient.version>
+        <jackson.jaxrs.json.provider.version>2.2.3</jackson.jaxrs.json.provider.version>
         <javax.servlet.api.version>3.1.0</javax.servlet.api.version>
-        <jetty.maven.plugin.version>9.0.4.v20130625</jetty.maven.plugin.version>
-        <javax.ws.rs.api.version>2.0-m10</javax.ws.rs.api.version>
+        <jetty.maven.plugin.version>9.1.0.M0</jetty.maven.plugin.version>
+        <javax.ws.rs.api.version>2.0</javax.ws.rs.api.version>
         <maven.war.plugin.version>2.4</maven.war.plugin.version>
-        <spring.version>3.2.3.RELEASE</spring.version>
+        <spring.version>3.2.4.RELEASE</spring.version>
         <swagger.jaxrs.version>1.2.5</swagger.jaxrs.version>
     </properties>
 
@@ -30,28 +30,8 @@
         <module>rest-ui</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.jaxrs</groupId>
-            <artifactId>jackson-jaxrs-json-provider</artifactId>
-        </dependency>
-    </dependencies>
-
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
@@ -103,6 +83,12 @@
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
                 <version>${httpclient.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>commons-logging</artifactId>
+                        <groupId>commons-logging</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>javax.ws.rs</groupId>
