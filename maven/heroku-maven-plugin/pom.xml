@@ -9,22 +9,32 @@
 	<groupId>fr.kissy.modules.maven</groupId>
     <artifactId>heroku-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    
+
+    <properties>
+        <commons.io.version>2.4</commons.io.version>
+        <jgit.version>3.0.0.201306101825-r</jgit.version>
+        <mojo.executor.version>2.0.1</mojo.executor.version>
+    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+        </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.4</version>
+            <version>${commons.io.version}</version>
         </dependency>
         <dependency>
             <groupId>org.twdata.maven</groupId>
             <artifactId>mojo-executor</artifactId>
-            <version>2.0.1</version>
+            <version>${mojo.executor.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit</artifactId>
-            <version>3.0.0.201306101825-r</version>
+            <version>${jgit.version}</version>
         </dependency>
     </dependencies>
 </project>
