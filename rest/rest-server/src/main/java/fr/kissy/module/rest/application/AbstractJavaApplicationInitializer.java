@@ -1,5 +1,6 @@
 package fr.kissy.module.rest.application;
 
+import ch.qos.logback.ext.spring.web.LogbackConfigListener;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -18,6 +19,7 @@ public abstract class AbstractJavaApplicationInitializer implements WebApplicati
         AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
         applicationContext.register(getJavaConfiguration());
         servletContext.addListener(new ContextLoaderListener(applicationContext));
+        servletContext.addListener(new LogbackConfigListener());
 
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet(CXFServlet.class.getSimpleName(), CXFServlet.class);
         dispatcher.setInitParameter("swagger.config.reader", PropertyBasedConfigReader.class.getName());

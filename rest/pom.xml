@@ -15,10 +15,11 @@
         <cxf.version>2.7.7</cxf.version>
         <cxf.xjc.runtime.version>2.6.2</cxf.xjc.runtime.version>
         <httpclient.version>4.3</httpclient.version>
-        <javax.servlet.api.version>3.1.0</javax.servlet.api.version>
         <jetty.maven.plugin.version>9.1.0.M0</jetty.maven.plugin.version>
+        <javax.servlet.api.version>3.1.0</javax.servlet.api.version>
         <javax.ws.rs.api.version>2.0-m10</javax.ws.rs.api.version>
         <maven.war.plugin.version>2.4</maven.war.plugin.version>
+        <properties.maven.plugin.version>1.0-alpha-2</properties.maven.plugin.version>
         <spring.version>3.2.4.RELEASE</spring.version>
         <swagger.jaxrs.version>1.2.5</swagger.jaxrs.version>
     </properties>
@@ -132,9 +133,36 @@
                     </configuration>
                 </plugin>
                 <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>properties-maven-plugin</artifactId>
+                    <version>${properties.maven.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>set-system-properties</goal>
+                            </goals>
+                            <configuration>
+                                <properties>
+                                    <property>
+                                        <name>logback.configurationFile</name>
+                                        <value>${project.build.outputDirectory}/logback.xml</value>
+                                    </property>
+                                </properties>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-maven-plugin</artifactId>
                     <version>${jetty.maven.plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>ch.qos.logback</groupId>
+                            <artifactId>logback-classic</artifactId>
+                            <version>${logback.version}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
             </plugins>
         </pluginManagement>
